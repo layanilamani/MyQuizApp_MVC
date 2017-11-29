@@ -1,0 +1,7 @@
+﻿body { background:#589ca7 url('/images/c12.jpg') no-repeat center top; }
+
+.mynavbar {
+    background-color:transparent;
+    background-image:none;
+    border: none;
+}
