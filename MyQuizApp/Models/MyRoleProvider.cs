@@ -11,7 +11,19 @@ namespace MyQuizApp.Models
         MyQuizAppEntities db = new MyQuizAppEntities();
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            throw new NotImplementedException();
+            foreach (var un in usernames)
+            {
+                var user = db.Users.First(u => u.Email == un);
+
+                if(user!=null)
+                {
+                    var rolename =  roleNames[0];
+                    var usertype = db.UserTypes.First(ut => ut.Name == rolename);
+                    user.UserType = usertype;
+                }
+
+                db.SaveChanges();
+            }
         }
 
         public override string ApplicationName
@@ -28,7 +40,11 @@ namespace MyQuizApp.Models
 
         public override void CreateRole(string roleName)
         {
-            throw new NotImplementedException();
+             UserType ut = new UserType();
+            ut.Name = roleName;
+
+            db.UserTypes.Add(ut);
+            db.SaveChanges();
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
@@ -70,7 +86,7 @@ namespace MyQuizApp.Models
 
         public override bool RoleExists(string roleName)
         {
-            throw new NotImplementedException();
+           return db.UserTypes.Any(ut => ut.Name == roleName);
         }
     }
 }
